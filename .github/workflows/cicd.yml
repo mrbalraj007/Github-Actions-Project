@@ -146,8 +146,19 @@ jobs:
       run: |
         mkdir -p $HOME/.kube
         echo "${{ secrets.EKS_KUBECONFIG }}" > $HOME/.kube/config
+        
+    - name: Verify the context
+      run: |
+        kubectl config view
+
+    - name: To get the full role ARN
+      run: |
+        aws sts get-caller-identity
+        
+    # - name: To Verify the config file 
+    #   run: |
+    #     cat -A ~/.kube/config
+        
     - name: Deploy to EKS
       run: |
-        kubectl apply -f ds.yml
-
-  
+        kubectl apply -f ds.yml 
